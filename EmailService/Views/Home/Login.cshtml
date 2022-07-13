@@ -1,0 +1,57 @@
+﻿@model EmailService.Models.User
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <style>
+    </style>
+</head>
+<body>
+    <div class="panel panel-success">
+        <div class="panel-heading text-center p-3 border bg-light"><h4>RSVP</h4></div>
+        <div class="panel-body">
+            <form class="p-a-1" asp-action="Login" method="post">
+                <div asp-validation-summary="All"></div>
+                <div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-sm-2">
+
+    </div>
+    <div class="col-md-5 offset-md p-5">
+                <div class="p-1">
+                    <label asp-for="Email">Email:</label>
+                    <input class="form-control" asp-for="Email" />
+                </div>
+                <div class="p-1">
+                    <label asp-for="Password">Password:</label>
+                    <input type="password" class="form-control" asp-for="Password" />
+                </div>
+                 <a class="nav-link p-1" asp-action="RsvpForm">Registration</a>
+
+    </div>
+    <div class="col col-sm-2">
+    </div>
+  </div>
+</div>
+                <div class ="p-3">
+                    <div class="text-center">
+                    <button class="btn btn-primary" type="submit">
+                        Welcome
+                    </button>
+                </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</body>
+</html>

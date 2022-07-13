@@ -1,0 +1,39 @@
+﻿@model IEnumerable<EmailService.Models.User>
+@{
+Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<title>Responses</title>
+<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <div class="panel-body">
+<h2>Here is the list of people attending the party</h2>
+<table class="table table-sm table-striped table-bordered">
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>is Admin</th>
+</tr>
+</thead>
+<tbody>
+@foreach (EmailService.Models.User r in Model) {
+<tr>
+<td>@r.Name</td>
+<td>@r.Email</td>
+<td>@if(r.Admin == true){
+    @:Yes
+} else {
+    @:No
+}</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+</body>
+</html>

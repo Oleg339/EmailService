@@ -1,0 +1,61 @@
+﻿@model EmailService.Models.User
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TaskList</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <style>
+    </style>
+</head>
+<body>
+    <form method="post">
+        <nav class="navbar navbar-light bg-light">
+    <h2 class="p-3">ToDo</h2>
+  @if (Model.Admin)
+                {
+                    <a class="nav-link my-2 my-sm-0" asp-action="Admin">Admin panel</a>
+                }
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class = "col">
+                
+                
+                
+                <table class="table table-striped">
+                    <thead class = "table-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col ">Title</th>
+                            <th scope="col">Last trigger</th>
+                            <th scope="col" >Options</th>
+                        </tr>
+                    </thead>
+                    @foreach (EmailService.Models.Task r in Model) {
+                        <tr>
+                            <td>@r.Name</td>
+                            <td>@r.Title</td>
+                            <td>@r.LastTrigger</td>
+                            <td>
+                                
+                                <a class ="nav-link" asp-action = "EditTask" asp-route-TaskId = "@r.TaskId"> Edit </a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <a type ="button" class ="btn btn-primary" asp-action = "AddTask" asp-route-UserId = "@Model.Id"> Add Task </a>
+            </div>
+        </div>
+    </div>
+    </form>
+    
+</body>
+</html>
