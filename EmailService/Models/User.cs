@@ -16,18 +16,16 @@ namespace EmailService.Models
         public string Password { get => password; set => password = PasswordHashing.GetHash(value); }
         public bool Admin { get; set; }
         public int Id { get => id; set => id = value; }
-        //    private List<Task> taskList =
-        //new List<Task>();
         public List<Task> Tasks { get; set; }
         public IEnumerator<Task> GetEnumerator() => Tasks.GetEnumerator();
         public void Add(Task task)
         {
             Tasks.Add(task);
         }
-        public void TaskToUser()
-        {
-            Tasks = Repository.UserToTasks(this);
-        }
+        //public void TaskToUser()
+        //{
+        //    Tasks = Repository.UserToTasks(this);
+        //}
         public User()
         {
             Tasks = new List<Task>();

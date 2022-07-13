@@ -125,28 +125,6 @@ namespace EmailService.Models
             }
         }
 
-        public static string? returnPasswordByEmail(string email)
-        {
-            string? password = null;
-            List<User> users = new List<User>();
-            users = Repository.Responses;
-            foreach (User user in users)
-            {
-                if (user.Email == email)
-                    password = user.Password;
-            }
-            return password;
-        }
-        public static User? findUser(string email)
-        {
-            List<User> users = new List<User>();
-            users = Repository.Responses;
-            foreach (User user in users)
-            {
-                if (user.Email == email)
-                    return user;
-            }
-            return null;
-        }
+        
     }
 }

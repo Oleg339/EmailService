@@ -6,98 +6,127 @@ namespace EmailService.Models;
 
 
 
-    private static List<User> responses =
-Database.outputUsers();
-        private static List<Task> taskList =
-    new List<Task>();
-    public Repository()
-    {
-        responses = Database.outputUsers();
-        taskList = Database.outputTasks();
-    }
-    public static List<Task> TaskList
-    {
-        get
-        {
-            return Database.outputTasks();
-        }
-    }
+        private static List<User> responses = Database.outputUsers();
 
-    public static List<User> Responses
+        private static List<Task> taskList = new List<Task>();
+
+        public Repository()
+        {
+            responses = Database.outputUsers();
+            taskList = Database.outputTasks();
+        }
+        public static void update()
+        {
+            responses = Database.outputUsers();
+            taskList = Database.outputTasks();
+        }
+
+        public static void addTask(Task task)
+        {
+            taskList.Add(task);
+            Database.inputTasks(task);
+        }
+
+        public static void addResponse(User response)
+        {
+            responses.Add(response);
+            Database.inputUsers(response);
+        }
+
+        public static List<Task> TaskList
         {
             get
             {
-                return responses;
+                return Database.outputTasks();
             }
         }
-    //public static void addresponse()
-    //{
-    //    responses = database.outputusers();
-    //}
-    public static void addTask(Task task)
-    {
-        taskList.Add(task);
-        Database.inputTasks(task);
-    }
-    public static void addResponse(User response)
-    {
-        responses.Add(response);
-        Database.inputUsers(response);
-    }
-    public static Task? FindTask(int taskId)
-    {
-        foreach(Task t in taskList)
-        {
-            if(t.TaskId == taskId)
+
+        public static List<User> Responses
             {
-                return t;
+                get
+                {
+                    return responses;
+                }
             }
-        }
-        return null;
-    }
-
-    public static User? FindUser(int id)
-    {
-        foreach(User u in Responses)
+    
+        public static Task? FindTask(int taskId)
         {
-            if(u.Id == id)
+            foreach(Task t in taskList)
             {
-                return u;
+                if(t.TaskId == taskId)
+                {
+                    return t;
+                }
             }
+            return null;
         }
-        return null;
-    }
 
-    public static List<Task> UserToTasks(User user)
-    {
-        List<Task> taskList =
-    new List<Task>();
-        List<Task> taskL = TaskList.ToList();
-        foreach(Task t in taskL)
+        public static User? FindUser(int id)
         {
-            if(user.Id == t.UserId)
+            foreach(User u in Responses)
             {
-                taskList.Add(t);
+                if(u.Id == id)
+                {
+                    return u;
+                }
             }
+            return null;
         }
-        return taskList;
-    }
 
-    public static object deleteTask(int taskId)
-    {
-        foreach(Task t in TaskList)
+        public static User? FindUser(string Email)
         {
-            if(t.TaskId == taskId)
+            foreach (User u in Responses)
             {
-                TaskList.Remove(t);
+                if (u.Email == Email)
+                {
+                    return u;
+                }
             }
+            return null;
         }
-        return null;
-    }
+
+        public static object deleteTask(int taskId)
+        {
+            foreach(Task t in TaskList)
+            {
+                if(t.TaskId == taskId)
+                {
+                    TaskList.Remove(t);
+                }
+            }
+            return null;
+        }
+
+
+        public static string? returnPasswordByEmail(string email)
+        {
+            string? password = null;
+            List<User> users = new List<User>();
+            users = Repository.Responses;
+            foreach (User user in users)
+            {
+                if (user.Email == email)
+                    password = user.Password;
+                return password;
+            }
+            return null;
+        }
+        public static User? findUser(string email)
+        {
+            List<User> users = new List<User>();
+            users = Repository.Responses;
+            foreach (User user in users)
+            {
+                if (user.Email == email)
+                    return user;
+            }
+            return null;
+        }
 
 
 
-    public static int bubbleId = -1;
-    public static bool bubbleB = true;
+
+        public static int bubbleId = -1;
+        public static bool bubbleB = true;
 }
 

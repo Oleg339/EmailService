@@ -13,17 +13,12 @@ namespace EmailService.Controllers
         [HttpPost]
         public ViewResult Login(User guestResponse)
         {
-            Repository repository = new Repository();
-            if (Database.returnPasswordByEmail(guestResponse.Email) != null &&
-                Database.returnPasswordByEmail(guestResponse.Email) == guestResponse.Password
+            Repository.update();
+            if (guestResponse.password != null &&
+                Repository.returnPasswordByEmail(guestResponse.Email) == guestResponse.Password
                 && guestResponse.Email != null)
             {
-                guestResponse = Database.findUser(guestResponse.Email);
-                if (guestResponse.Admin == true)
-                {
-                    guestResponse.TaskToUser();
-                    return View("TaskList", guestResponse);
-                }
+                guestResponse = Repository.findUser(guestResponse.Email);
                 return View("TaskList", guestResponse);
             }
             else
@@ -40,13 +35,14 @@ namespace EmailService.Controllers
         [HttpPost]
         public ViewResult RsvpForm(User guestResponse)
         {
-            var check = Database.returnPasswordByEmail(guestResponse.Email);
+            var check = Repository.returnPasswordByEmail(guestResponse.Email);
             if (check != null)
                 ModelState.AddModelError("Email", "Email already used");
             if (ModelState.IsValid)
             {
                 Repository.addResponse(guestResponse);
-                return View("TaskList", guestResponse);
+                Repository.update();
+                return View("TaskList", Repository.FindUser(guestResponse.Email));
             }
             else
             {
@@ -61,7 +57,7 @@ namespace EmailService.Controllers
         public ViewResult EditTask(int TaskId)
         {
             Repository.bubbleId = TaskId;
-            Repository.bubbleB = false;
+            Repository.bubbleB = false;  //Edit task NOT add
             return View(Repository.FindTask(TaskId));
         }
         [HttpGet]
@@ -76,7 +72,7 @@ namespace EmailService.Controllers
         public ViewResult AddTask(Models.Task task)
         {
             if(Repository.bubbleB)
-            {
+            {   
                 task.UserId = Repository.bubbleId;
                 Repository.bubbleId = -1;
                 User u = Repository.FindUser(task.UserId);
