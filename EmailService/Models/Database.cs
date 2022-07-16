@@ -3,7 +3,6 @@ namespace EmailService.Models
 {
     public static class Database
     {
-        //public static User BubbleUser;
         public static int inputTasks(Task task)
         {
 
