@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EmailService.Models.User>
+﻿@model EmailService.Models.StatisticsAndUsers
 @{
 Layout = null;
 }
@@ -32,8 +32,14 @@ Layout = null;
 }</td>
 </tr>
 }
+
+
 </tbody>
 </table>
+<h3>Statistics</h3>
+<label> Tasks completed: @Model.countOfTriggers</label>
+<br>
+<label> Completed today: @Model.todayTriggers</label>
 </div>
 </body>
 </html>

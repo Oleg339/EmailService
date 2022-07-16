@@ -29,8 +29,9 @@ namespace EmailService.Models;
 
         public static void addResponse(User response)
         {
-            responses.Add(response);
+            //responses.Add(response);
             Database.inputUsers(response);
+            responses.Add(response); 
         }
 
         public static List<Task> TaskList
@@ -128,5 +129,6 @@ namespace EmailService.Models;
 
         public static int bubbleId = -1;
         public static bool bubbleB = true;
+        public static int BubbleUserId = -1;  
 }
 

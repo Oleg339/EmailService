@@ -19,6 +19,7 @@ namespace EmailService.Controllers
                 && guestResponse.Email != null)
             {
                 guestResponse = Repository.findUser(guestResponse.Email);
+                Repository.BubbleUserId = guestResponse.Id;
                 return View("TaskList", guestResponse);
             }
             else
@@ -42,6 +43,8 @@ namespace EmailService.Controllers
             {
                 Repository.addResponse(guestResponse);
                 Repository.update();
+                User u = Repository.FindUser(guestResponse.Email);
+                Repository.BubbleUserId = u.Id;
                 return View("TaskList", Repository.FindUser(guestResponse.Email));
             }
             else
@@ -52,7 +55,7 @@ namespace EmailService.Controllers
 
         public ViewResult Admin()
         {
-            return View(Repository.Responses);
+            return View(new StatisticsAndUsers());
         }
         public ViewResult EditTask(int TaskId)
         {
@@ -71,6 +74,10 @@ namespace EmailService.Controllers
         [HttpPost]
         public ViewResult AddTask(Models.Task task)
         {
+            if(Repository.bubbleId < 0)
+            {
+                return View("TaskList", Repository.FindUser(Repository.BubbleUserId));
+            }
             if(Repository.bubbleB)
             {   
                 task.UserId = Repository.bubbleId;
@@ -97,13 +104,13 @@ namespace EmailService.Controllers
         {
             return View(Repository.FindUser(user));
         }
-        public ViewResult TaskList(int TaskId, string str)
+        public ViewResult Delete(int TaskId)
         {
             Repository.bubbleB = true;
             Models.Task i = Repository.FindTask(TaskId);
             User r = Repository.FindUser(i.UserId);
             r.deleteTask(i);
-            return View(r);
+            return View("TaskList", r);
         }
     }
 }
