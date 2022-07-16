@@ -18,7 +18,10 @@ namespace EmailService.Models
         public int Id { get => id; set => id = value; }
         public List<Task> Tasks { get; set; }
         public IEnumerator<Task> GetEnumerator() => Tasks.GetEnumerator();
-
+        public List<Task> updateTasks()
+        {
+            return Database.outputTask(Id);
+        }
         public void Add(Task task)
         {
             task.TaskId = Database.inputTasks(task);

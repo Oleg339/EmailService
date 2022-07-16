@@ -39,7 +39,7 @@
                             <th scope="col" >Options</th>
                         </tr>
                     </thead>
-                    @foreach (EmailService.Models.Task r in Model) {
+                    @foreach (EmailService.Models.Task r in Model.updateTasks()) {
                         <tr>
                             <td>@r.Name</td>
                             <td>@r.Title</td>
