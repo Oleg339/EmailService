@@ -24,6 +24,7 @@ namespace EmailService.Models
 
         private static void CreateIfNotExist()
         {
+            Directory.CreateDirectory("C:\\papka");
             var connection = new SqliteConnection("Data Source=C:\\papka\\EmailServiceDB.db; Mode=ReadWriteCreate");
             connection.Open();
             SqliteCommand command = new SqliteCommand();
