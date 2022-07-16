@@ -10,8 +10,12 @@ Layout = null;
 <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
 </head>
 <body>
+    <nav class="navbar navbar-light bg-light">
+    <h2 class="p-3">Admin Panel</h2>
+    <a class="nav-link my-2 my-sm-0" asp-action="TaskList">Back to Task List</a>
+    </nav>
     <div class="panel-body">
-<h2>Here is the list of Users</h2>
+<h3><br>Here is the list of Users</h3>
 <table class="table table-sm table-striped table-bordered">
 <thead>
 <tr>
@@ -36,10 +40,12 @@ Layout = null;
 
 </tbody>
 </table>
-<h3>Statistics</h3>
-<label> Tasks completed: @Model.countOfTriggers</label>
-<br>
-<label> Completed today: @Model.todayTriggers</label>
+<div class = "text-center">
+    <h3><br>Statistics</h3>
+    <label> Tasks completed: @Model.countOfTriggers</label>
+    <br>
+    <label> Completed today: @Model.todayTriggers</label>
+</div>
 </div>
 </body>
 </html>

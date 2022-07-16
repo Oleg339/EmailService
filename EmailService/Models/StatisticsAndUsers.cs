@@ -10,7 +10,7 @@
         {
             triggerDates = Database.outputDates();
             Users = new List<User>();
-            Users = Repository.Responses.ToList();
+            Users = Database.outputUsers();//Repository.Responses.ToList();
             countOfTriggers = triggerDates.Count;
             todayTriggers = calculateTriggers(triggerDates);
         }

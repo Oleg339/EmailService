@@ -18,14 +18,22 @@ namespace EmailService.Models
         public int Id { get => id; set => id = value; }
         public List<Task> Tasks { get; set; }
         public IEnumerator<Task> GetEnumerator() => Tasks.GetEnumerator();
+
         public void Add(Task task)
         {
-            if(task.TaskId == 0)
-            {
-                task.TaskId = Database.getLastTaskId();
-            }
-            //task.TaskId = 0;// Tasks[Tasks.Count - 1].TaskId + 1;
+            task.TaskId = Database.inputTasks(task);
             Tasks.Add(task);
+        }
+        public Task? findTask(int taskId)
+        {
+            foreach(Task t in Tasks)
+            {
+                if(t.TaskId == taskId)
+                {
+                    return t;
+                }
+            }
+            return null;
         }
         //public void TaskToUser()
         //{
@@ -42,19 +50,21 @@ namespace EmailService.Models
                 if(Tasks[i].TaskId == task.TaskId)
                 {
                     Tasks[i] = task;
+                    Database.editTask(task);
                 }
             }
         }
-        public void deleteTask(Task task)
+        public void deleteTask(int taskId)
         {
             for (int i = 0; i < Tasks.Count; i++)
             {
-                if (Tasks[i].TaskId == task.TaskId)
+                if (Tasks[i].TaskId == taskId)
                 {
                     Tasks.Remove(Tasks[i]);
+                    Database.deleteTask(taskId);
                 }
             }
-            Database.deleteTask(task);
+            
         }
     }
 }

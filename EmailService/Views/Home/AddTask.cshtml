@@ -17,7 +17,10 @@
 </head>
 <body>
     <div class="panel panel-success">
-        <div class="panel-heading text-center p-3 border bg-light"><h4>Add Task</h4></div>
+        <nav class="navbar navbar-light bg-light">
+            <h2 class="p-3">Task Editor</h2>
+            <a class="nav-link my-2 my-sm-0" asp-action="TaskList">Back to Task List</a>
+        </nav>
         <div class="panel-body">
             <form class="p-a-1" asp-action="AddTask" method="post">
                 <div asp-validation-summary="All"></div>

@@ -17,9 +17,12 @@
 </head>
 <body>
     <div class="panel panel-success">
-        <div class="panel-heading text-center p-3 border bg-light"><h4>RSVP</h4></div>
+        <nav class="navbar navbar-light bg-light">
+            <h2 class="p-3">Task Editor</h2>
+            <a class="nav-link my-2 my-sm-0" asp-action="TaskList">Back to Task List</a>
+        </nav>
         <div class="panel-body">
-            <form class="p-a-1" asp-action="AddTask" method="post">
+            <form class="p-a-1" asp-action="EditTask" method="post">
                 <div asp-validation-summary="All"></div>
                 <div class="container">
   <div class="row justify-content-md-center">
@@ -52,9 +55,9 @@
                     </select>
                     <label>Choose the Api Option</label>
                     <select class="form-control" asp-for="@Model.ApiOption">
-                        <option value="1">Weather: Minsk or CryptoCyrrency: Bitcoin</option>
-                        <option value="2">Weather: Warsaw or CryptoCyrrency: Etherium</option>
-                        <option value="3">Weather: New York or CryptoCyrrency: Litecoin</option>
+                        <option value="1">Weather: Minsk <br>or CryptoCyrrency: Bitcoin</option>
+                        <option value="2">Weather: Warsaw <br>or CryptoCyrrency: Etherium</option>
+                        <option value="3">Weather: New York <br>or CryptoCyrrency: Litecoin</option>
                     </select>
                 </div>
                 <a type ="button" class ="btn btn-danger" asp-action = "Delete" asp-route-TaskId = "@Model.TaskId">Delete</a>

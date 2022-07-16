@@ -5,6 +5,11 @@ namespace EmailService.Controllers
 {
     public class HomeController : Controller
     {
+        static User? user;
+        static int bubbleTaskId;
+        static bool isAddingTask = true; 
+
+
         [HttpGet]
         public ViewResult Login()
         {
@@ -13,14 +18,10 @@ namespace EmailService.Controllers
         [HttpPost]
         public ViewResult Login(User guestResponse)
         {
-            Repository.update();
-            if (guestResponse.password != null &&
-                Repository.returnPasswordByEmail(guestResponse.Email) == guestResponse.Password
-                && guestResponse.Email != null)
+            user = Database.outputUser(guestResponse);
+            if (user != null)
             {
-                guestResponse = Repository.findUser(guestResponse.Email);
-                Repository.BubbleUserId = guestResponse.Id;
-                return View("TaskList", guestResponse);
+                return View("TaskList", user);
             }
             else
             {
@@ -36,81 +37,74 @@ namespace EmailService.Controllers
         [HttpPost]
         public ViewResult RsvpForm(User guestResponse)
         {
-            var check = Repository.returnPasswordByEmail(guestResponse.Email);
-            if (check != null)
-                ModelState.AddModelError("Email", "Email already used");
             if (ModelState.IsValid)
             {
-                Repository.addResponse(guestResponse);
-                Repository.update();
-                User u = Repository.FindUser(guestResponse.Email);
-                Repository.BubbleUserId = u.Id;
-                return View("TaskList", Repository.FindUser(guestResponse.Email));
+                if (Database.inputUser(guestResponse))
+                {
+                    user = Database.outputUser(guestResponse);
+                    return View("TaskList", user);
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Email already used");
+                }
             }
-            else
-            {
-                return View();
-            }
+            
+            return View();
         }
 
         public ViewResult Admin()
         {
             return View(new StatisticsAndUsers());
         }
+        [HttpGet]
         public ViewResult EditTask(int TaskId)
         {
-            Repository.bubbleId = TaskId;
-            Repository.bubbleB = false;  //Edit task NOT add
-            return View(Repository.FindTask(TaskId));
+            bubbleTaskId = TaskId;
+            Models.Task? t = user.findTask(TaskId);
+            if (t == null)
+            {
+                return View("TaskList", user);
+            }
+            return View(t);
         }
-        [HttpGet]
-        public ViewResult AddTask(int UserId)
+        [HttpPost]
+        public ViewResult EditTask(Models.Task task)
         {
+            task.TaskId = bubbleTaskId;
+            user.editTask(task);
+            return View("TaskList", user);
+        }
+
+        [HttpGet]
+        public ViewResult AddTask()
+        {
+            isAddingTask = true;
             Models.Task task = new Models.Task();
-            task.UserId = UserId;
-            Repository.bubbleId = UserId;
             return View(task);
         }
         [HttpPost]
         public ViewResult AddTask(Models.Task task)
         {
-            if(Repository.bubbleId < 0)
+            if (isAddingTask)
             {
-                return View("TaskList", Repository.FindUser(Repository.BubbleUserId));
+                isAddingTask = false;
+                task.UserId = user.Id;
+                user.Add(task);
+                return View("TaskList", user);
             }
-            if(Repository.bubbleB)
-            {   
-                task.UserId = Repository.bubbleId;
-                Repository.bubbleId = -1;
-                User u = Repository.FindUser(task.UserId);
-                Repository.addTask(task);
-                u.Add(task);
-                return View("TaskList", u);
-            }
-            else
-            {
-                task.TaskId = Repository.bubbleId;
-                Models.Task i = Repository.FindTask(task.TaskId);
-                User r = Repository.FindUser(i.UserId);
-                task.UserId = r.Id;
-                Database.editTask(task);
-                r.editTask(task);
-                Repository.bubbleId = -1;
-                Repository.bubbleB = true;
-                return View("TaskList", r);
-            }
+            return View("TaskList", user);
         }
-        public ViewResult TasksList(int user)
+
+        public ViewResult TaskList()
         {
-            return View(Repository.FindUser(user));
+            return View(user);
         }
+
         public ViewResult Delete(int TaskId)
         {
-            Repository.bubbleB = true;
-            Models.Task i = Repository.FindTask(TaskId);
-            User r = Repository.FindUser(i.UserId);
-            r.deleteTask(i);
-            return View("TaskList", r);
+            user.deleteTask(TaskId);
+            return View("TaskList", user);
         }
     }
 }
