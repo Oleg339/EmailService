@@ -28,12 +28,12 @@ namespace EmailService.Controllers
             }
         }
         [HttpGet]
-        public ViewResult RsvpForm()
+        public ViewResult SignUp()
         {
-            return View("RsvpForm");
+            return View();
         }
         [HttpPost]
-        public ViewResult RsvpForm(User guestResponse)
+        public ViewResult SignUp(User guestResponse)
         {
             if (ModelState.IsValid)
             {
