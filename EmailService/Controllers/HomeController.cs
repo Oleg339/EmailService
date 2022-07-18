@@ -7,8 +7,6 @@ namespace EmailService.Controllers
     {
         static User? user;
         static int bubbleTaskId;
-        static bool isAddingTask = true; 
-
 
         [HttpGet]
         public ViewResult Login()
@@ -79,20 +77,14 @@ namespace EmailService.Controllers
         [HttpGet]
         public ViewResult AddTask()
         {
-            isAddingTask = true;
             Models.Task task = new Models.Task();
             return View(task);
         }
         [HttpPost]
         public ViewResult AddTask(Models.Task task)
         {
-            if (isAddingTask)
-            {
-                isAddingTask = false;
-                task.UserId = user.Id;
-                user.Add(task);
-                return View("TaskList", user);
-            }
+            task.UserId = user.Id;
+            user.Add(task);
             return View("TaskList", user);
         }
 
